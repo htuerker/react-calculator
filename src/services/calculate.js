@@ -69,6 +69,7 @@ function processOperatorAction(data, action) {
     }
   } else {
     if(total && !next && action !== '=') {
+      calculated = false;
       operation = action;
     }
   }
