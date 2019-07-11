@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
+import './styles.css';
 
-import Display from './components/Display';
-import ButtonPanel from './components/ButtonPanel';
+import Display from '../Display';
+import ButtonPanel from '../ButtonPanel';
 
-import calculate from './services/calculate';
+import calculate from '../../services/calculate';
 
 export default class App extends React.Component {
   constructor(props) {

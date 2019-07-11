@@ -87,7 +87,6 @@ function processSpecialKeyAction(data, action) {
           total = operate(total, '-1', 'x');
         }
       }
-      console.log(data);
       break;
     default: break;
   }
