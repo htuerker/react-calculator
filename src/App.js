@@ -1,26 +1,55 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Display from './components/Display';
+import ButtonPanel from './components/ButtonPanel';
 
-export default App;
+import calculate from './services/calculate';
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      total: null,
+      next: null,
+      operation: null,
+    }
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(buttonName) {
+    const result = calculate(this.state, buttonName);
+    this.setState(result);
+  }
+
+  getDisplayText() {
+    const { total, next, operation } = this.state;
+    let display = '';
+    if (total) {
+      display += total;
+      if (operation) {
+        display += ' ' + operation + ' ';
+        if (next) {
+          if (next.includes('-')) {
+            display += '(' + next + ')';
+          } else {
+            display += next;
+          }
+        }
+      }
+    }
+    return display;
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <div className="calculator">
+          <Display result={this.getDisplayText()} />
+          <ButtonPanel handleClick={this.handleClick} />
+        </div>
+      </div>
+    );
+  }
+}

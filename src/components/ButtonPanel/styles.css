@@ -1,0 +1,10 @@
+.button-panel {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.button-group {
+  width: 100%;
+  height: 100px;
+}
