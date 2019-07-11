@@ -13,6 +13,7 @@ export default class App extends React.Component {
       total: null,
       next: null,
       operation: null,
+      calculated: false,
     }
 
     this.handleClick = this.handleClick.bind(this);

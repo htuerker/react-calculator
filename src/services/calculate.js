@@ -3,7 +3,6 @@ import operate from './operate';
 const numpadRegExp = /^(\d||\.){1}$/;
 const operatorRegExp = /^(x||%||÷||\+||\-||=){1}$/;
 const specialKeyRegExp = /^(AC||\+\/\-){1}$/;
-const parenthesisRegExp = /^\((\-?\d+)\)$/;
 
 export default (data, buttonName) => {
   if (numpadRegExp.test(buttonName))
@@ -17,7 +16,14 @@ export default (data, buttonName) => {
 }
 
 function processNumpadAction(data, action) {
-  let { total, next, operation } = data;
+  let { total, next, operation, calculated } = data;
+
+  if (calculated) {
+    total = null;
+    next = null;
+    operation = null;
+    calculated = false;
+  }
 
   if(action === '.') {
     if (total) {
@@ -44,17 +50,18 @@ function processNumpadAction(data, action) {
       }
     }
   }
-  return { total, next, operation };
+  return { total, next, operation, calculated };
 }
 
 function processOperatorAction(data, action) {
-  let { total, next, operation } = data;
+  let { total, next, operation, calculated } = data;
 
   if (operation) {
     if (next) {
       total = operate(total, next, operation);
       next = null;
       if (action === '=') {
+        calculated = true;
         operation = null;
       } else {
         operation = action;
@@ -65,7 +72,7 @@ function processOperatorAction(data, action) {
       operation = action;
     }
   }
-  return { total, next, operation };
+  return { total, next, operation, calculated };
 }
 
 function processSpecialKeyAction(data, action) {
@@ -83,7 +90,7 @@ function processSpecialKeyAction(data, action) {
             next = operate(next, '-1', 'x');
         }
       } else {
-        if (total !== '0') {
+        if (total && !operation && total !== '0') {
           total = operate(total, '-1', 'x');
         }
       }

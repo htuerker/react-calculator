@@ -11,14 +11,13 @@ const Button = (props) => {
   const { color, wide, name, handleClick } = props;
 
   return (
-    <div
-      className="button"
+    <button
       style={{
         background: (color) ? colors[color] : colors.orange,
         width: (wide) ? '50%' : '25%',
       }}
       onClick={() => handleClick(name)}
-    >{name}</div>
+    >{name}</button>
   );
 }
 
