@@ -1,9 +1,9 @@
 .container {
-  width: 1248px;
-  margin: 100px auto;
+  max-width: 1248px;
+  margin: 0 auto;
 }
 
 .calculator {
-  width: 700px;
+  max-width: 700px;
   margin: 0 auto;
 }
