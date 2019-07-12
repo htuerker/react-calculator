@@ -26,19 +26,15 @@ const getDisplayText = ({ total, next, operation }) => {
 
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      total: null,
-      next: null,
-      operation: null,
-      calculated: false,
-      error: null,
-    }
-    this.handleClick = this.handleClick.bind(this);
+  state = {
+    total: null,
+    next: null,
+    operation: null,
+    calculated: false,
+    error: null,
   }
 
-  handleClick(buttonName) {
+  handleClick = (buttonName) => {
     this.setState((prevState) =>
       Object.assign({}, prevState, calculate(prevState, buttonName)));
   }
