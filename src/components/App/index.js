@@ -14,15 +14,15 @@ export default class App extends React.Component {
       next: null,
       operation: null,
       calculated: false,
-      error: null
+      error: null,
     }
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(buttonName) {
-    const result = calculate(this.state, buttonName);
-    this.setState(result);
+    this.setState((prevState) =>
+      Object.assign({}, prevState, calculate(prevState, buttonName)));
   }
 
   getDisplayText() {
