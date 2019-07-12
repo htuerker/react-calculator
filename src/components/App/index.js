@@ -14,6 +14,7 @@ export default class App extends React.Component {
       next: null,
       operation: null,
       calculated: false,
+      error: null
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -47,7 +48,7 @@ export default class App extends React.Component {
     return (
       <div className="container">
         <div className="calculator">
-          <Display result={this.getDisplayText()} />
+          <Display result={(this.state.error) ? `ERROR` : this.getDisplayText()} />
           <ButtonPanel handleClick={this.handleClick} />
         </div>
       </div>

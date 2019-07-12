@@ -2,8 +2,7 @@ import './styles.css';
 import React from 'react';
 import Button from '../Button';
 
-const ButtonPanel = (props) => {
-  const { handleClick } = props;
+const ButtonPanel = ({ handleClick }) => {
   return (
     <div className="button-panel">
       <div className="button-group">
@@ -16,7 +15,7 @@ const ButtonPanel = (props) => {
         <Button name="7" color="gray" handleClick={handleClick} />
         <Button name="8" color="gray" handleClick={handleClick} />
         <Button name="9" color="gray" handleClick={handleClick} />
-        <Button name="x" handleClick={props.handleClick} />
+        <Button name="x" handleClick={handleClick} />
       </div>
       <div className="button-group">
         <Button name="4" color="gray" handleClick={handleClick} />

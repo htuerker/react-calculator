@@ -2,10 +2,10 @@ import './styles.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Display = (props) => {
+const Display = ({ result }) => {
   return (
     <div className="display wrapper">
-      <div style={{float: 'right'}}>{props.result}</div>
+      <div style={{float: 'right'}}>{result}</div>
     </div>
   );
 }

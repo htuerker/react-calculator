@@ -7,9 +7,7 @@ const colors = {
   orange: 'rgb(236, 146, 67)',
 }
 
-const Button = (props) => {
-  const { color, wide, name, handleClick } = props;
-
+const Button = ({ color, wide, name, handleClick }) => {
   return (
     <button
       style={{

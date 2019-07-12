@@ -3,19 +3,30 @@ import operate from './operate';
 const numpadRegExp = /^(\d||\.){1}$/;
 const operatorRegExp = /^(x||%||÷||\+||\-||=){1}$/;
 const specialKeyRegExp = /^(AC||\+\/\-){1}$/;
-
-export default (data, buttonName) => {
-  if (numpadRegExp.test(buttonName))
-    return processNumpadAction(data, buttonName);
-  if (operatorRegExp.test(buttonName))
-    return processOperatorAction(data, buttonName);
-  if (specialKeyRegExp.test(buttonName)) {
-    return processSpecialKeyAction(data, buttonName);
-  }
-  return data;
+const errorTemplate = {
+  total: null,
+  next: null,
+  operation: null,
+  calculated: null,
+  error: true
 }
 
-function processNumpadAction(data, action) {
+
+export default (data, buttonName) => {
+  try {
+    if (numpadRegExp.test(buttonName))
+      return processNumpadAction(data, buttonName);
+    if (operatorRegExp.test(buttonName))
+      return processOperatorAction(data, buttonName);
+    if (specialKeyRegExp.test(buttonName)) {
+      return processSpecialKeyAction(data, buttonName);
+    }
+  } catch (e) {
+    return errorTemplate;
+  }
+}
+
+const processNumpadAction = (data, action) => {
   let { total, next, operation, calculated } = data;
 
   if (calculated) {
@@ -50,10 +61,10 @@ function processNumpadAction(data, action) {
       }
     }
   }
-  return { total, next, operation, calculated };
+  return { total, next, operation, calculated, error: null };
 }
 
-function processOperatorAction(data, action) {
+const processOperatorAction = (data, action) => {
   let { total, next, operation, calculated } = data;
 
   if (operation) {
@@ -73,30 +84,26 @@ function processOperatorAction(data, action) {
       operation = action;
     }
   }
-  return { total, next, operation, calculated };
+  return { total, next, operation, calculated, error: null };
 }
 
-function processSpecialKeyAction(data, action) {
-  let { total, next, operation } = data;
+const processSpecialKeyAction = (data, action) => {
+  let { total, next, operation, error } = data;
 
-  switch (action) {
-    case 'AC':
-      total = null;
-      next = null;
-      operation = null;
-      break;
-    case '+/-':
-      if (next) {
-        if (next !== '0') {
-            next = operate(next, '-1', 'x');
-        }
-      } else {
-        if (total && !operation && total !== '0') {
-          total = operate(total, '-1', 'x');
-        }
+  if (action === 'AC') {
+    total = null;
+    next = null;
+    operation = null;
+  } else if (action === '+/-') {
+    if (next) {
+      if (next !== '0') {
+        next = operate(next, '-1', 'x');
       }
-      break;
-    default: break;
+    } else {
+      if (total && !operation && total !== '0') {
+        total = operate(total, '-1', 'x');
+      }
+    }
   }
-  return { total, next, operation };
+  return { total, next, operation, error: null };
 }
